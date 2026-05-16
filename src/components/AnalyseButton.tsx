@@ -11,12 +11,12 @@ export default function AnalyseButton({ disabled, isLoading, onClick }: AnalyseB
         type="button"
         onClick={onClick}
         disabled={disabled || isLoading}
-        className="mb-6 flex w-full items-center justify-center gap-3 rounded-none bg-[#1C1917] py-4 text-sm font-medium tracking-widest text-[#EFE9E3] uppercase transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
+        className="group relative flex w-full items-center justify-center gap-4 overflow-hidden rounded-none bg-[#1C1917] py-5 text-sm font-bold tracking-[0.2em] text-[#EFE9E3] uppercase transition-all duration-300 hover:bg-black hover:shadow-xl disabled:cursor-not-allowed disabled:bg-[#1C1917]/20 disabled:text-[#1C1917]/50 disabled:shadow-none"
       >
         {isLoading ? (
           <>
             <svg
-              className="h-5 w-5 animate-spin"
+              className="h-5 w-5 animate-spin text-current"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -39,7 +39,17 @@ export default function AnalyseButton({ disabled, isLoading, onClick }: AnalyseB
             Analysing Wardrobe…
           </>
         ) : (
-          'Analyse My Wardrobe'
+          <>
+            <span>Analyse My Wardrobe</span>
+            <svg 
+              className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </>
         )}
       </button>
     </div>

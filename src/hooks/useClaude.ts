@@ -10,7 +10,6 @@ const LOADING_MESSAGES = [
 ] as const;
 
 interface AnalyseParams {
-  apiKey: string;
   base64Data: string;
   mediaType: ImageMediaType;
   selectedOccasions: string[];
@@ -38,9 +37,11 @@ export function useClaude() {
   const loadingMessage = LOADING_MESSAGES[messageIndex % LOADING_MESSAGES.length];
 
   const analyse = useCallback(
-    async ({ apiKey, base64Data, mediaType, selectedOccasions }: AnalyseParams) => {
-      if (!apiKey.trim()) {
-        setError('Please enter your Anthropic API key.');
+    async ({ base64Data, mediaType, selectedOccasions }: AnalyseParams) => {
+      const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
+      
+      if (!apiKey?.trim()) {
+        setError('Please set VITE_ANTHROPIC_API_KEY in your environment variables.');
         return;
       }
 

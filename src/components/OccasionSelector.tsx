@@ -7,9 +7,13 @@ interface OccasionSelectorProps {
 
 export default function OccasionSelector({ selected, onToggle }: OccasionSelectorProps) {
   return (
-    <div className="mb-10 animate-fadeIn" style={{ animationDelay: '300ms' }}>
-      <p className="mb-4 text-xs font-medium text-[#1C1917]/60 tracking-widest uppercase">Select Occasion</p>
-      <div className="flex flex-wrap gap-3">
+    <div className="animate-fadeIn" style={{ animationDelay: '300ms' }}>
+      <div className="flex justify-between items-end mb-6">
+        <p className="text-xs font-bold tracking-[0.2em] text-[#1C1917] uppercase">
+          Select Occasion
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
         {OCCASIONS.map((occasion) => {
           const isSelected = selected.includes(occasion.id);
           return (
@@ -17,13 +21,18 @@ export default function OccasionSelector({ selected, onToggle }: OccasionSelecto
               key={occasion.id}
               type="button"
               onClick={() => onToggle(occasion.id)}
-              className={`cursor-pointer rounded-none border px-5 py-3 text-sm font-medium transition-colors duration-300 ${isSelected
-                  ? 'border-[#1C1917] bg-[#1C1917] text-[#EFE9E3]'
-                  : 'border-[#1C1917]/20 bg-transparent text-[#1C1917] hover:border-[#1C1917]'
-                }`}
+              className={`group flex items-center justify-between cursor-pointer border px-5 py-4 text-sm font-medium transition-all duration-300 ${
+                isSelected
+                  ? 'border-[#1C1917] bg-[#1C1917] text-white shadow-md'
+                  : 'border-[#1C1917]/10 bg-white/40 text-[#1C1917] hover:border-[#1C1917]/40 hover:bg-white'
+              }`}
             >
-              <span className="mr-2 opacity-80">{occasion.emoji}</span> 
-              {occasion.label}
+              <span className="tracking-wide">{occasion.label}</span>
+              <span className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
+                isSelected ? 'opacity-100' : 'opacity-50 grayscale'
+              }`}>
+                {occasion.emoji}
+              </span> 
             </button>
           );
         })}

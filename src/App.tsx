@@ -7,7 +7,6 @@ import Navbar from './components/Navbar';
 import Header from './components/Header';
 import AboutSection from './components/AboutSection';
 import ProcessSection from './components/ProcessSection';
-import ApiKeyInput from './components/ApiKeyInput';
 import UploadZone from './components/UploadZone';
 import OccasionSelector from './components/OccasionSelector';
 import AnalyseButton from './components/AnalyseButton';
@@ -16,7 +15,6 @@ import ResultsSection from './components/ResultsSection';
 import ErrorCard from './components/ErrorCard';
 
 export default function App() {
-  const [apiKey, setApiKey] = useState('');
   const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
   const [appState, setAppState] = useState<AppState>('idle');
 
@@ -33,10 +31,6 @@ export default function App() {
 
   const handleAnalyse = async () => {
     if (!canAnalyse || !image.base64Data || !image.mediaType) return;
-    if (!apiKey.trim()) {
-      setAppState('error');
-      return;
-    }
 
     setAppState('analysing');
     const labels = selectedOccasions.map(
@@ -45,7 +39,6 @@ export default function App() {
 
     try {
       const result = await claude.analyse({
-        apiKey,
         base64Data: image.base64Data,
         mediaType: image.mediaType,
         selectedOccasions: labels,
@@ -98,7 +91,7 @@ export default function App() {
         </div>
 
         {/* The Interactive Stylist (Form) */}
-        <section id="stylist" className="w-full max-w-2xl mx-auto py-32 px-6 border-t border-[#1C1917]/10 scroll-mt-12">
+        <section id="stylist" className="w-full max-w-5xl mx-auto py-32 px-6 border-t border-[#1C1917]/10 scroll-mt-12">
           <div className="text-center mb-16">
             <h2 className="font-serif text-4xl md:text-5xl font-normal text-[#1C1917] tracking-tight">
               The <span className="italic">Stylist.</span>
@@ -109,26 +102,34 @@ export default function App() {
           </div>
 
           <div className="animate-fadeIn" style={{ animationDelay: '200ms' }}>
-            <ApiKeyInput value={apiKey} onChange={setApiKey} />
-
             {showForm && (
-              <div className="space-y-10 mt-16">
-                <UploadZone
-                  previewUrl={image.previewUrl}
-                  acceptedTypes={image.acceptedTypes}
-                  onFileSelect={image.processFile}
-                  onClear={image.clear}
-                />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
+                <div className="h-full min-h-[400px]">
+                  <UploadZone
+                    previewUrl={image.previewUrl}
+                    acceptedTypes={image.acceptedTypes}
+                    onFileSelect={image.processFile}
+                    onClear={image.clear}
+                  />
+                </div>
 
-                <OccasionSelector selected={selectedOccasions} onToggle={toggleOccasion} />
+                <div className="flex flex-col justify-center">
+                  <OccasionSelector selected={selectedOccasions} onToggle={toggleOccasion} />
 
-                <AnalyseButton
-                  disabled={!canAnalyse}
-                  isLoading={appState === 'analysing'}
-                  onClick={handleAnalyse}
-                />
+                  <div className="mt-8">
+                    <AnalyseButton
+                      disabled={!canAnalyse}
+                      isLoading={appState === 'analysing'}
+                      onClick={handleAnalyse}
+                    />
+                  </div>
 
-                {appState === 'analysing' && <LoadingBar message={claude.loadingMessage} />}
+                  {appState === 'analysing' && (
+                    <div className="mt-6">
+                      <LoadingBar message={claude.loadingMessage} />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
