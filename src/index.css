@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Bodoni Moda', 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+@layer base {
+  body {
+    @apply text-[#1C1917] antialiased selection:bg-[#1C1917] selection:text-white;
+    background: linear-gradient(-45deg, #EFE9E3, #E8D3C5, #EFE9E3, #DCD0C6);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-progress {
+  animation: progress 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes fashionFloat {
+  0% {
+    transform: rotateY(0deg) rotateX(5deg) translateY(0px);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(-5deg) translateY(-20px);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(5deg) translateY(0px);
+  }
+}
+
+.animate-fashion-float {
+  animation: fashionFloat 35s linear infinite;
+  transform-style: preserve-3d;
+}
+
+
